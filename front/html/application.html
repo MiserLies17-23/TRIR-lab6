@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="../js/jquery/jquery-3.7.1.js"defer></script>
+        <script type="module" src="../js/aplication.js" defer></script>
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/application.css">
+        <title>Application</title>
+    </head>
+    <body>
+        <div class="application-conteiner">  
+            <div class="header" id="header"><h4><!-- Название действия --></h4></div>
+            
+            <form id="application-form">
+                
+                Устройство:
+                <div class="entrance-form">
+                    <select name="type" id="type">
+                        <option value="" disabled="true" hidden="true">Выберите устройство</option>
+                        <option value="phone">Телефон</option>
+                        <option value="tablet">Планшет</option>
+                        <option value="laptop">Ноутбук</option>
+                        <option value="computer">Компьютер</option>
+                    </select>
+                </div>
+                
+                Производитель: 
+                <div class="entrance-form">
+                    <label for="company"></label>
+                    <input name="company" type="text" id="company" placeholder="Введите производителя" required>
+                </div>
+
+                Модель: 
+                <div class="entrance-form">
+                    <label for="model"></label>
+                    <input name="model" type="text" id="model" placeholder="Введите модель" required>
+                </div>
+
+                <div class="action-button">
+                    <button type="button" id="back-button"> Назад </button>
+                    <button type="submit" id="next-button"> Дальше </button>
+                </div>
+            </form>
+            <div id="error-message"></div>
+        </div>
+    </body>
+</html>

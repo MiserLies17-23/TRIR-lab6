@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="../js/jquery/jquery-3.7.1.js" defer></script>
+        <script type="module" src="../js/cabinet.js" defer></script>
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/cabinet.css">
+        <title>Cabinet</title>
+    </head>
+    <body>
+        <div class="conteiner">
+            <table class="head-conteiner">
+                <tbody>
+                    <tr>
+                        <td id="name"><!-- Имя пользователя --></td>
+                        <td id="visits"><!-- Посещения --></td>
+                        <td id="time"><!-- Серверное время --></td>
+                        <td><button id="exit-button" type="submit">Выйти</button></td>  
+                    </tr> 
+                </tbody>
+            </table>
+
+            <table id="applications" class="application-conteiner">
+                <tbody>
+                    <tr>
+                        <th id="type">Тип устройства</th>
+                        <th id="company">Производитель</th>
+                        <th id="model">Модель устройства</th>
+                        <th id="action">Действие</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

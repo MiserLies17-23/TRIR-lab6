@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!-- Лабораторная работа №6
+    24ВП1, Толстоухов В.
+    Вариант 20: форма регистрации устройства в локальной сети-->
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="front/css/style.css">
+        <script type="text/javascript" src="front/js/jquery/jquery-3.7.1.js" defer></script>
+        <script type="module" src="front/js/login.js" defer></script>
+    </head>
+    <body> 
+        <div class="header">
+            <h3>Лабораторная работа №6</h3> 
+            <h4>Вариант 20: Форма регистрации устройства в локальной сети</h4>
+        </div>
+            
+        <div class="entrance-container">  
+            <div class="header"><h4>Вход</h4></div>
+            
+            <form id="login-form">
+                Логин:
+                <div class="entrance-form">
+                    <label for="login"></label>
+                    <input name="login" type="text" id="login" placeholder="Введите логин" required>
+                </div>
+                
+                Пароль:
+                <div class="entrance-form">
+                    <label for="password"></label>
+                    <input name="password" type="password" id="password" required>
+                </div>
+                
+                <div class="entrance-button">
+                    <button type="submit" id="ent-button"> Войти </button>
+                </div>  
+            </form>
+            
+            <div id="error-message"></div>
+            <div class="entrance-button">
+                <p>Ещё нет аккаунта?</p>
+                <button type="submit" id="reg-button"> Регистрация </button>
+            </div>
+        </div>
+    </body>
+</html>

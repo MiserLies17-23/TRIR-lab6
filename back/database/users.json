@@ -1,0 +1,34 @@
+[
+    {
+        "login": "admin",
+        "password": "123456",
+        "visits": 9,
+        "applications": [
+            {
+                "id": 1,
+                "type": "Ноутбук",
+                "company": "Apple",
+                "model": "Apple MacBook Air 13 2020"
+            },
+            {
+                "id": 2,
+                "type": "phone",
+                "company": "Apple",
+                "model": "Apple iPhone Xr"
+            }
+        ]
+    },
+    {
+        "login": "a517740362",
+        "password": "e0BVMd30",
+        "visits": 5,
+        "applications": [
+            {
+                "id": 1,
+                "type": "phone",
+                "company": "Samsung",
+                "model": "A51"
+            }
+        ]
+    }
+]

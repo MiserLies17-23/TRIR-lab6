@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/style.css"></link>
+        <link rel="stylesheet" href="../css/registration.css"></link>
+        <script type="text/javascript" src="../js/jquery/jquery-3.7.1.js" defer></script>
+        <script type="module" src="../js/registration.js" defer></script>
+    </head>
+    <body>
+        <div class="entrance-container">  
+            <div class="header"><h4>Регистрация</h4></div>
+            
+            <form id="login-form">
+                Логин:
+                <div class="entrance-form">
+                    <label for="login"></label>
+                    <input name="login" type="text" id="login" placeholder="Введите логин" required>
+                </div>
+                
+                Пароль:
+                <div class="entrance-form">
+                    <label for="password"></label>
+                    <input name="password" type="password" id="password" required>
+                </div>
+                
+                Устройство:
+                <div class="entrance-form">
+                    <select name="type" id="type">
+                        <option value="" disabled="true" hidden="true">Выберите устройство</option>
+                        <option value="phone">Телефон</option>
+                        <option value="tablet">Планшет</option>
+                        <option value="laptop">Ноутбук</option>
+                        <option value="computer">Компьютер</option>
+                    </select>
+                </div>
+                
+                Производитель: 
+                <div class="entrance-form">
+                    <label for="company"></label>
+                    <input name="company" type="text" id="company" placeholder="Введите производителя" required>
+                </div>
+
+                Модель: 
+                <div class="entrance-form">
+                    <label for="model"></label>
+                    <input name="model" type="text" id="model" placeholder="Введите модель" required>
+                </div>
+
+                <div class="entrance-button">
+                    <button type="submit" id="reg-button"> Зарегистрироваться </button>
+                </div>
+            </form>
+            <div id="error-message"></div>
+            <div class="entrance-button">
+                <p>Уже есть аккаунт?</p>
+                <button type="submit" id="ent-button"> Войти </button>
+            </div>
+        </div>
+    </body>
+</html>
