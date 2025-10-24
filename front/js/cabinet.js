@@ -63,6 +63,9 @@ $(document).ready(function() {
         //addDeleteAction();
     }
 
+    /**
+     * Метод загрузки серверного времени
+     */
     async function getTime() {
         const API = new Api('../../back/time.php');
         let timeResult = await API.get();
@@ -74,8 +77,12 @@ $(document).ready(function() {
     function addEditAction() {
         const EDIT_BUTTONS = $('.edit-button');
         EDIT_BUTTONS.each(function() {
+            
             $(this).click(() => {
-                localStorage.setItem('currentApplication', this.id);
+                const BUTTON_ID = this.id;
+                const ID = BUTTON_ID.replace('app', '');
+
+                localStorage.setItem('currentApplication', ID);
                 localStorage.setItem('action', 'edit');
                 window.location.href = "./application.html";
             });

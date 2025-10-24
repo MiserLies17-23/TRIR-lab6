@@ -4,6 +4,11 @@ $(document).ready(function() {
 
     const ACTION = localStorage.getItem('action');
     const USER_DATA = JSON.parse(localStorage.getItem('currentUser'));
+    const ID = localStorage.getItem('currentApplication');
+
+    console.log(ID);
+    console.log(ACTION);
+    console.log(USER_DATA);
 
     if (!USER_DATA) {
         alert('Пользователь не распознан! Пожалуйста, вернитесь на страницу входа...')
@@ -21,7 +26,7 @@ $(document).ready(function() {
             window.location.href = './cabinet.js';
         } else {
             $('#header').text("Редактируйте данные устройства");
-            loadCurrentParams();
+            loadCurrentParams(ID);
             //$('#next-button').click(editApplication());
         }
     } else {
@@ -47,9 +52,23 @@ $(document).ready(function() {
         loadCurrentParams();
     }*/
 
-    function loadCurrentParams() {
-        let currentCompany = USER_DATA.login;
-        $('#company').val(currentCompany || '');
+    function loadCurrentParams(id) {
+        try {
+            let currentId = parseInt(ID);
+
+            let application = USER_DATA.applications[currentId];
+
+            let currentType = application.type;
+            let currentCompany = application.company;
+            let currentModel = application.model;
+            
+            $('#type').val(currentType || '');
+            $('#company').val(currentCompany || '');
+            $('#model').val(currentModel || '');
+        } catch (error) {
+            console.log("Ошибка загрузки данных: ", error);
+        }
+        
     }
 
     $('#back-button').click(function() {
