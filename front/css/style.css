@@ -8,7 +8,7 @@ body {
     margin: 0; 
 }
 
-.entrance-container{
+.entrance-container {
     border: 1px solid rgb(67, 136, 185);
     padding: 5px;
     width: 500px;
@@ -40,7 +40,7 @@ body {
     text-align: center;
 }
 
-#ent-button, #exit-button, .edit-button {
+#ent-button, #exit-button, #next-button, #add-button, .edit-button {
     border: 2px;
     background-color: rgb(67, 136, 185);
     color: white;
@@ -52,10 +52,14 @@ body {
     color: white;
 }
 
-#reg-button {
+#reg-button, #back-button {
     border: 2px solid white;
     background-color: white;
     color: rgb(67, 136, 185);
+}
+
+#back-button {
+    border: 2px solid rgb(67, 136, 185);
 }
 
 #error-message {

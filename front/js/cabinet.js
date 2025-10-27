@@ -17,7 +17,12 @@ $(document).ready(function() {
 
     loadUserData();
     getTime(); 
-    //setInterval(getTime, 1000);
+    setInterval(getTime, 1000);
+
+    $('#add-button').click(()=> {
+        localStorage.setItem('action', 'add');
+        window.location.href = "./application.html";
+    })
 
     $('#exit-button').click(() => {
         localStorage.removeItem('currentUser');
@@ -30,6 +35,7 @@ $(document).ready(function() {
         const RESULT = await API.get({login : USER_DATA.login});
 
         if (RESULT.success) {
+            localStorage.setItem('currentUser', JSON.stringify(RESULT.user));
             displayDataInfo(RESULT);
             console.log('Загрузка прошла успешно!');
         } else {

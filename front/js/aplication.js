@@ -2,57 +2,92 @@ import {Api} from './Api.js'
 
 $(document).ready(function() {
 
+    const ERROR_CONTEINER = $('#error-message');
+
     const ACTION = localStorage.getItem('action');
-    const USER_DATA = JSON.parse(localStorage.getItem('currentUser'));
-    const ID = localStorage.getItem('currentApplication');
+    let USER_DATA = JSON.parse(localStorage.getItem('currentUser'));
+    const ID = parseInt(localStorage.getItem('currentApplication'));
 
     console.log(ID);
     console.log(ACTION);
     console.log(USER_DATA);
 
-    if (!USER_DATA) {
-        alert('Пользователь не распознан! Пожалуйста, вернитесь на страницу входа...')
-        localStorage.removeItem('currentUser');
-        window.location.href = '../../index.html'
-    }
-
-    if (ACTION === 'add') {
-        $('#header').text("Добавьте устройство")
-        $('#next-button').click(addNewApplication);
-    } else if (ACTION === 'edit') {
-        const PARAMS = localStorage.getItem('currentApplication');
-        if (!PARAMS) {
-            alert('Устройство не распознано!');
-            window.location.href = './cabinet.js';
-        } else {
-            $('#header').text("Редактируйте данные устройства");
-            loadCurrentParams(ID);
-            //$('#next-button').click(editApplication());
+    try {
+        if (!USER_DATA) {
+            alert('Пользователь не распознан! Пожалуйста, вернитесь на страницу входа...')
+            localStorage.removeItem('currentUser');
+            window.location.href = '../../index.html'
         }
-    } else {
-        alert('Действие не распознано!');
-        window.location.href = '../../index.html';
+
+        if (ACTION === 'add') {
+            $('#header').text("Добавьте устройство")
+            $('#next-button').click(addApplication);
+        
+        } else if (ACTION === 'edit') {
+            const PARAMS = localStorage.getItem('currentApplication');
+            if (!PARAMS) {
+                alert('Устройство не распознано!');
+                window.location.href = './cabinet.html';
+            } else {
+                $('#header').text("Редактируйте данные устройства");
+                loadCurrentParams();
+                $('#next-button').click(editApplication);
+            }
+        } else {
+            alert('Действие не распознано!');
+            window.location.href = '../../index.html';
+        }
+    } catch {
+        alert("Ошибка загрузки данных!");
+        window.location.href = "./cabinet.html";
     }
 
-    /*function addNewApplication() {
-        const APPLICATION_PARAMS = getUserParams();
-        const API = new Api('../../back/addApplication.php');
-
-    }
-
-    function getUserParams() {
-        return {
-            type : $('#type').val(), 
+    async function addApplication() {
+        const USER_PARAMS = {
+            login : USER_DATA.login,
+            id : USER_DATA.applications.length,
+            type : $('#type').val(),
             company : $('#company').val().trim(),
             model : $('#model').val().trim()
-        };  
+        }
+
+        const API = new Api('../../back/addApplication.php');
+        const RESULT = await API.post(USER_PARAMS); 
+        if (RESULT.success) {
+            updateLocalStorage(USER_PARAMS);
+            alert(RESULT.message);
+            window.location.href = "./cabinet.html";
+        } else {
+            ERROR_CONTEINER.text(RESULT.message || 'Ошибка добавления данных!');
+        }
+
     }
 
-    function editApplication() {
-        loadCurrentParams();
-    }*/
+    async function editApplication() {
+        const USER_PARAMS = {
+            login : USER_DATA.login,
+            id : ID,
+            type : $('#type').val(),
+            company : $('#company').val().trim(),
+            model : $('#model').val().trim()
+        }
+        try {
+            const API = new Api('../../back/editApplication.php');
+            const RESULT = await API.post(USER_PARAMS); 
+            if (RESULT.success) {
+                updateLocalStorage(USER_PARAMS);
+                alert(RESULT.message);
+                window.location.href = "./cabinet.html";
+            } else {
+                ERROR_CONTEINER.text(RESULT.message || 'Ошибка сохранения данных!');
+            }
+        } catch {
+            ERROR_CONTEINER.text("Ошибка загрузки данных");
+        }
+        
+    }
 
-    function loadCurrentParams(id) {
+    function loadCurrentParams() {
         try {
             let currentId = parseInt(ID);
 
@@ -69,6 +104,28 @@ $(document).ready(function() {
             console.log("Ошибка загрузки данных: ", error);
         }
         
+    }
+
+    function updateLocalStorage(updatedParams) {
+        
+        const updatedUserData = {...USER_DATA};
+        
+        // Проверяем существование applications
+        if (!updatedUserData.applications) {
+            updatedUserData.applications = [];
+        }
+        
+        // Обновляем данные устройства
+        if (updatedUserData.applications[ID]) {
+            updatedUserData.applications[ID] = {
+                type: updatedParams.type,
+                company: updatedParams.company,
+                model: updatedParams.model
+            };
+        }
+        
+        // Сохраняем обновленные данные в localStorage
+        localStorage.setItem('currentUser', JSON.stringify(updatedUserData));
     }
 
     $('#back-button').click(function() {

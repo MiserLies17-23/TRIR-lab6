@@ -2,11 +2,11 @@
     {
         "login": "admin",
         "password": "123456",
-        "visits": 11,
+        "visits": 18,
         "applications": [
             {
                 "id": 0,
-                "type": "Ноутбук",
+                "type": "computer",
                 "company": "Apple",
                 "model": "Apple MacBook Air 13 2020"
             },
@@ -14,7 +14,13 @@
                 "id": 1,
                 "type": "phone",
                 "company": "Apple",
-                "model": "Apple iPhone Xr"
+                "model": "Apple iPhone X"
+            },
+            {
+                "id": 2,
+                "type": "phone",
+                "company": "Miracle",
+                "model": "BB5"
             }
         ]
     },
@@ -27,6 +33,19 @@
                 "id": 0,
                 "type": "phone",
                 "company": "Samsung",
+                "model": "A51"
+            }
+        ]
+    },
+    {
+        "login": "sparrow",
+        "password": "111111",
+        "visits": 1,
+        "applications": [
+            {
+                "id": 0,
+                "type": "phone",
+                "company": "Miracle",
                 "model": "A51"
             }
         ]

@@ -28,3 +28,10 @@ th, tr {
 th {
     background-color: rgb(120, 196, 250);
 }
+
+#div-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}

@@ -33,7 +33,7 @@ class Repository {
     }
 
     /**
-     * Функция проверки логина пользователя
+     * Метод проверки логина пользователя
      * 
      * @param string $username - логин пользователя
      * @param string $password - пароль пользователя
@@ -94,7 +94,7 @@ class Repository {
     }
 
     /**
-     * Функция добавляет нового пользователя
+     * Метод добавляет нового пользователя
      * 
      * @param array $userdata - ввелдённые пользователем данные
      * @return void
@@ -115,7 +115,7 @@ class Repository {
     }
 
     /**
-     * Функция создаёт нового пользователя
+     * Метод создаёт нового пользователя
      * 
      * @param array $userdata - введённые пользователем данные
      * @return array
@@ -125,16 +125,19 @@ class Repository {
             'login' => $userdata['login'],
             'password' => $userdata['password'],
             'visits' => 0,
-            'application' => [
-                'type' => $userdata['type'],
-                'company' => $userdata['company'],
-                'model' => $userdata['model']
+            'applications' => [
+                [
+                    'id' => 0,
+                    'type' => $userdata['type'],
+                    'company' => $userdata['company'],
+                    'model' => $userdata['model']
+                ]
             ]
         ];
     }
 
     /**
-     * Функция сохраняет нового пользователя
+     * Метод сохраняет нового пользователя
      * 
      * @param array $newUser - пользовательские данные
      * @return void
@@ -152,7 +155,7 @@ class Repository {
                 'message' => 'Регистрация успешна! Теперь вы можете войти.',
                 'user' => [
                     'login' => $newUser['login'],
-                    'application' => $newUser['application']
+                    'applications' => $newUser['applications']
                 ]
             ]);
         } else {
@@ -189,11 +192,112 @@ class Repository {
     }
 
     /**
-     * Функция сохраняет данные пользователя
+     * Метод поиска индекса пользователя по логину
      * 
+     * @param string $login - логин пользователя
+     * @return int $index - индекс пользователя
+     */
+    private function findUserIndex(string $login): int {
+        foreach ($this->data as $index => $user) {
+            if ($user['login'] === $login) {
+                return $index;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Метод изменения данных об устройстве
+     * 
+     * @param array $userEditParams - пользовательские данные
      * @return void
      */
-    public function saveData(): bool {
+    public function editApplication(array $userEditParams) : void {
+        $currentIndex = $this->findUserIndex($userEditParams['login']);
+
+        if ($currentIndex === -1) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Пользователь не найден!'
+            ]);
+            return;
+        }
+        
+        $applicationIndex = (int)$userEditParams['id'];
+        
+        if (!isset($this->data[$currentIndex]['applications'][$applicationIndex])) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Устройство не существует!'
+            ]);
+            return;
+        }
+        
+        $this->data[$currentIndex]['applications'][$applicationIndex] = [
+            'id' => $applicationIndex,
+            'type' => $userEditParams['type'],
+            'company' => $userEditParams['company'],
+            'model' => $userEditParams['model']
+        ];
+
+        if ($this->saveData()) {
+            echo json_encode([
+                'success' => true,
+                'message' => 'Данные успешно обнавлены!'
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Ошибка обнавления данных!'
+            ]);
+        }
+    }
+
+    /**
+     * Метод добавления нового устройства 
+     * 
+     * @param array $userAddParams - пользовательские данные
+     * @return void
+     */
+    public function addApplication(array $userAddParams) : void {
+        $currentIndex = $this->findUserIndex($userAddParams['login']);
+        if ($currentIndex === -1) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Пользователь не найден!'
+            ]);
+            return;
+        }
+
+        $newApplication = [
+            'id' => $userAddParams['id'],
+            'type' => $userAddParams['type'],
+            'company' => $userAddParams['company'],
+            'model' => $userAddParams['model']
+        ];
+
+        array_push($this->data[$currentIndex]['applications'], $newApplication);
+
+        if ($this->saveData()) {
+            echo json_encode([
+                'success' => true,
+                'message' => 'Устройство добавлено!'
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Ошибка добавления устройства!'
+            ]);
+        }
+
+    }
+
+    /**
+     * Функция сохраняет данные пользователя
+     * 
+     * @return bool
+     */
+    public function saveData() : bool {
         return file_put_contents($this->file, json_encode($this->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)) !== false;
     }
 }
