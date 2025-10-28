@@ -29,7 +29,7 @@ $(document).ready(function() {
             password: PASSWORD.val().trim(),
         }; 
 
-        const API = new Api("../back/login.php");
+        const API = new Api("../back/endpoint/login.php");
 
         try {
             const RESULT = await API.post(USER_DATA);

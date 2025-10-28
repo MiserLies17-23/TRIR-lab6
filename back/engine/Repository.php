@@ -175,10 +175,14 @@ class Repository {
     public function validationCheck(array $userData) : bool {
         $loginValidation = Validator::loginValidate($userData['login']);
         $passwordValidation = Validator::passwordValidate($userData['password']);
+        $companyValidation = Validator::applicationValidate($userData['applications'][0]['company']);
+        $modelValidation = Validator::applicationValidate($userData['applications'][0]['model']);
 
         $allErrors = array_merge(
             $loginValidation['errors'],
             $passwordValidation['errors'], 
+            $companyValidation['errors'],
+            $modelValidation['errors']
         );
 
         if (!empty($allErrors)) {
@@ -290,6 +294,58 @@ class Repository {
             ]);
         }
 
+    }
+
+    /**
+     * Метод удаления устрйоства
+     * 
+     * @param array $deleteParams - необходимые данные для удаления
+     * @return void
+     */
+    public function deleteApplication(array $deleteParams) : void {
+        $currentIndex = $this->findUserIndex($deleteParams['login']);
+        if ($currentIndex === -1) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Пользователь не найден!'
+            ]);
+            return;
+        }
+
+        $id = $deleteParams['id'];
+        if (0 > $id || $id >= count($this->data[$currentIndex]['applications'])) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Устройство не найдено!'
+            ]);
+            return;
+        }
+
+        if (count($this->data[$currentIndex]['applications']) == 1) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'В аккаунте должно остаться хотя бы одно устройтство! Измените существующее'
+            ]);
+            return;
+        }
+
+        array_splice($this->data[$currentIndex]['applications'], $id, 1);
+        
+        foreach ($this->data[$currentIndex]['applications'] as $index => &$application) {
+            $application['id'] = $index;
+        }
+
+        if ($this->saveData()) {
+            echo json_encode([
+                'success' => true,
+                'message' => 'Устройство удалено!'
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Ошибка удаления устройства!'
+            ]);
+        }
     }
 
     /**

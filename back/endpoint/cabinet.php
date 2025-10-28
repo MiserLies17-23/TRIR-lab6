@@ -1,12 +1,12 @@
 <?php
 
-require_once('engine/Repository.php');
+require_once('../engine/Repository.php');
 header("Content-Type: application/json");
 
 $login = $_GET['login'] ?? '';
 
 if (!empty($login)) {
-    $repository = new Repository('database/users.json');
+    $repository = new Repository('../database/users.json');
     $repository->loadUserData($login);
 } else {
     echo json_encode([

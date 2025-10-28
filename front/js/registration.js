@@ -32,7 +32,7 @@ $(document).ready(function() {
         }
 
         const NEW_USER = createNewUser();
-        const API = new Api("../../back/registration.php"); 
+        const API = new Api("../../back/endpoint/registration.php"); 
 
         try {
             const RESULT = await API.post(NEW_USER)

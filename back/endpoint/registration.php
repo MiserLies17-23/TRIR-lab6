@@ -1,6 +1,6 @@
 <?php
 
-require_once('engine/Repository.php');
+require_once('../engine/Repository.php');
 header("Content-Type: application/json");
 
 $data = json_decode(file_get_contents('php://input'), true);
@@ -13,7 +13,7 @@ if ($data === null) {
     exit;
 }
 
-$repository = new Repository('database/users.json');
+$repository = new Repository('../database/users.json');
 $repository->addManager($data);
 
 ?>

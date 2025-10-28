@@ -1,9 +1,9 @@
 import {Api} from "./Api.js"
 
 /**
- * Добавить следующие функции: 
- * - Обработчик событий на кнопку "Выйти";
- * - Обработчик событий на кнопку "Добавить устройства"
+ * 
+ * 
+ * @returns {void}
  */
 $(document).ready(function() {
     
@@ -29,8 +29,14 @@ $(document).ready(function() {
         window.location.href="../../index.html";
     })
 
+    /**
+     * функция загрузки пользовательских данных
+     * 
+     * @async
+     * @returns {void}
+     */
     async function loadUserData() {
-        const API = new Api('../../back/cabinet.php');
+        const API = new Api('../../back/endpoint/cabinet.php');
 
         const RESULT = await API.get({login : USER_DATA.login});
 
@@ -44,6 +50,12 @@ $(document).ready(function() {
         }
     }
 
+    /**
+     * Функция вывода пользовательских данных
+     * 
+     * @param {array} result
+     * @returns {void} 
+     */
     function displayDataInfo(result) {
  
         $('#name').text("Пользователь: " + result.user.login);
@@ -59,27 +71,35 @@ $(document).ready(function() {
                     <td>${application.model}</td>
                     <td>
                         <button class="edit-button" id="app${application.id}">Редактировать</button>
-                        <button class="delete-button" id="app${application.id}">Удалить</button>
+                        <button class="delete-button" id="del${application.id}">Удалить</button>
                     </td>
                 </tr>`
             );
         });
 
         addEditAction();
-        //addDeleteAction();
+        addDeleteAction();
     }
 
     /**
-     * Метод загрузки серверного времени
+     * Функция загрузки серверного времени
+     * 
+     * @async
+     * @returns {void}
      */
     async function getTime() {
-        const API = new Api('../../back/time.php');
+        const API = new Api('../../back/endpoint/time.php');
         let timeResult = await API.get();
         if (timeResult.success) {
             $('#time').text("Время: " + timeResult.currentTime);
         }
     }
 
+    /**
+     * Функция добавления события для кнопок изменения данных устройств
+     * 
+     * @returns {void}
+     */
     function addEditAction() {
         const EDIT_BUTTONS = $('.edit-button');
         EDIT_BUTTONS.each(function() {
@@ -95,22 +115,33 @@ $(document).ready(function() {
         });
     }
 
+    /**
+     * Функция добавления события для кнопок удаления устройств 
+     * 
+     * @returns {void}
+     */
     function addDeleteAction() {
         const DELETE_BUTTONS = $('.delete-button');
-        DELETE_BUTTONS.forEach(button => {
-            button.click(async function() {
-                const API = new Api('../../back/deleteApplication.php');
-                const RESULT = await API.post();
-                //....
+        DELETE_BUTTONS.each(function() {
+            $(this).click(async function() {
+                const BUTTON_ID = this.id;
+                const ID = parseInt(BUTTON_ID.replace('del', ''));
+                
+                const USER_PARAMS = {
+                    login : USER_DATA.login,
+                    id : ID,
+                }
+                
+                const API = new Api('../../back/endpoint/deleteApplication.php');
+                const RESULT = await API.post(USER_PARAMS);
                 if (RESULT.success) {
                     location.reload();
                 } else {
-                    console.log(RESULT.message);
+                    alert(RESULT.message);
                 }
             })
         })
     }
-
 })
 
 

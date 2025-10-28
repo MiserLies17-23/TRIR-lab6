@@ -2,32 +2,26 @@
     {
         "login": "admin",
         "password": "123456",
-        "visits": 18,
+        "visits": 20,
         "applications": [
             {
                 "id": 0,
-                "type": "computer",
-                "company": "Apple",
-                "model": "Apple MacBook Air 13 2020"
-            },
-            {
-                "id": 1,
                 "type": "phone",
                 "company": "Apple",
                 "model": "Apple iPhone X"
             },
             {
-                "id": 2,
+                "id": 1,
                 "type": "phone",
-                "company": "Miracle",
-                "model": "BB5"
+                "company": "Samsung",
+                "model": "A52 Galaxy"
             }
         ]
     },
     {
         "login": "a517740362",
         "password": "e0BVMd30",
-        "visits": 7,
+        "visits": 8,
         "applications": [
             {
                 "id": 0,
@@ -47,6 +41,19 @@
                 "type": "phone",
                 "company": "Miracle",
                 "model": "A51"
+            }
+        ]
+    },
+    {
+        "login": "111aaa",
+        "password": "111111",
+        "visits": 1,
+        "applications": [
+            {
+                "id": 0,
+                "type": "phone",
+                "company": "A111",
+                "model": "A111"
             }
         ]
     }

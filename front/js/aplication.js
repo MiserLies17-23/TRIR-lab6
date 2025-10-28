@@ -1,5 +1,8 @@
 import {Api} from './Api.js'
 
+/**
+ * 
+ */
 $(document).ready(function() {
 
     const ERROR_CONTEINER = $('#error-message');
@@ -42,6 +45,12 @@ $(document).ready(function() {
         window.location.href = "./cabinet.html";
     }
 
+    /**
+     * Функция добавления нового устройства
+     * 
+     * @async
+     * @returns {void}
+     */
     async function addApplication() {
         const USER_PARAMS = {
             login : USER_DATA.login,
@@ -51,7 +60,7 @@ $(document).ready(function() {
             model : $('#model').val().trim()
         }
 
-        const API = new Api('../../back/addApplication.php');
+        const API = new Api('../../back/endpoint/addApplication.php');
         const RESULT = await API.post(USER_PARAMS); 
         if (RESULT.success) {
             updateLocalStorage(USER_PARAMS);
@@ -63,6 +72,12 @@ $(document).ready(function() {
 
     }
 
+    /**
+     * Функция изменения данных об устройстве
+     * 
+     * @async
+     * @returns {void}
+     */
     async function editApplication() {
         const USER_PARAMS = {
             login : USER_DATA.login,
@@ -72,7 +87,7 @@ $(document).ready(function() {
             model : $('#model').val().trim()
         }
         try {
-            const API = new Api('../../back/editApplication.php');
+            const API = new Api('../../back/endpoint/editApplication.php');
             const RESULT = await API.post(USER_PARAMS); 
             if (RESULT.success) {
                 updateLocalStorage(USER_PARAMS);
@@ -87,6 +102,11 @@ $(document).ready(function() {
         
     }
 
+    /**
+     * Функция вывода данных пользователя
+     * 
+     * @returns {void}
+     */
     function loadCurrentParams() {
         try {
             let currentId = parseInt(ID);
@@ -106,6 +126,11 @@ $(document).ready(function() {
         
     }
 
+    /**
+     * Метод обновления пользовательтских данных в localStorage
+     * 
+     * @param {array} updatedParams 
+     */
     function updateLocalStorage(updatedParams) {
         
         const updatedUserData = {...USER_DATA};
@@ -128,6 +153,12 @@ $(document).ready(function() {
         localStorage.setItem('currentUser', JSON.stringify(updatedUserData));
     }
 
+    /**
+     * Функция для кнопки возвращения
+     * 
+     * @listens click
+     * @returns {void}
+     */
     $('#back-button').click(function() {
         window.location.href = './cabinet.html';
     })
