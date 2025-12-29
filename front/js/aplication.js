@@ -1,7 +1,9 @@
 import {Api} from './Api.js'
 
 /**
+ * Функционал страницы редактирования/добавления устройств 
  * 
+ * @returns {void}
  */
 $(document).ready(function() {
 
@@ -11,40 +13,49 @@ $(document).ready(function() {
     let USER_DATA = JSON.parse(localStorage.getItem('currentUser'));
     const ID = parseInt(localStorage.getItem('currentApplication'));
 
-    console.log(ID);
+    console.log(ID); // для временной отладки
     console.log(ACTION);
     console.log(USER_DATA);
 
-    try {
-        if (!USER_DATA) {
-            alert('Пользователь не распознан! Пожалуйста, вернитесь на страницу входа...')
-            localStorage.removeItem('currentUser');
-            window.location.href = '../../index.html'
-        }
+    /**
+     * Обработчик событий для кнопки "Сохранить"
+     * 
+     * @listens submit
+     * @returns {void}
+     */
+    $('#application-form').on('submit', async function(e) {
+        e.preventDefault();
 
-        if (ACTION === 'add') {
-            $('#header').text("Добавьте устройство")
-            $('#next-button').click(addApplication);
-        
-        } else if (ACTION === 'edit') {
-            const PARAMS = localStorage.getItem('currentApplication');
-            if (!PARAMS) {
-                alert('Устройство не распознано!');
-                window.location.href = './cabinet.html';
-            } else {
-                $('#header').text("Редактируйте данные устройства");
-                loadCurrentParams();
-                $('#next-button').click(editApplication);
+        try {
+            if (!USER_DATA) {
+                alert('Пользователь не распознан! Вы будете возвращены на страницу входа...')
+                localStorage.removeItem('currentUser');
+                window.location.href = '../../index.html'
             }
-        } else {
-            alert('Действие не распознано!');
-            window.location.href = '../../index.html';
-        }
-    } catch {
-        alert("Ошибка загрузки данных!");
-        window.location.href = "./cabinet.html";
-    }
 
+            if (ACTION === 'add') {
+                $('#header').text("Добавьте устройство")
+                $('#next-button').click(addApplication());
+            } else if (ACTION === 'edit') {
+                const PARAMS = localStorage.getItem('currentApplication');
+                if (!PARAMS) {
+                    alert('Устройство не распознано!');
+                    window.location.href = './cabinet.html';
+                } else {
+                    $('#header').text("Редактируйте данные устройства");
+                    loadCurrentParams();
+                    $('#next-button').click(editApplication());
+                }
+            } else {
+                alert('Действие не распознано!');
+                window.location.href = '../../index.html';
+            }
+        } catch {
+            alert("Ошибка загрузки данных!");
+            window.location.href = "./cabinet.html";
+        }
+    })
+    
     /**
      * Функция добавления нового устройства
      * 
@@ -58,18 +69,22 @@ $(document).ready(function() {
             type : $('#type').val(),
             company : $('#company').val().trim(),
             model : $('#model').val().trim()
-        }
+        };
 
-        const API = new Api('../../back/endpoint/addApplication.php');
-        const RESULT = await API.post(USER_PARAMS); 
-        if (RESULT.success) {
-            updateLocalStorage(USER_PARAMS);
-            alert(RESULT.message);
-            window.location.href = "./cabinet.html";
-        } else {
-            ERROR_CONTEINER.text(RESULT.message || 'Ошибка добавления данных!');
+        try {
+            const API = new Api('../../back/endpoint/addApplication.php');
+            const RESULT = await API.post(USER_PARAMS); 
+            if (RESULT.success) {
+                updateLocalStorage(USER_PARAMS);
+                alert(RESULT.message);
+                window.location.href = "./cabinet.html";
+            } else {
+                ERROR_CONTEINER.text(RESULT.message || 'Ошибка добавления данных!');
+            }
+        } catch (error) {
+            ERROR_CONTEINER.text("Ошибка добавления данных");
+            console.log(error);
         }
-
     }
 
     /**
@@ -96,8 +111,9 @@ $(document).ready(function() {
             } else {
                 ERROR_CONTEINER.text(RESULT.message || 'Ошибка сохранения данных!');
             }
-        } catch {
+        } catch (error) {
             ERROR_CONTEINER.text("Ошибка загрузки данных");
+            console.log(error);
         }
         
     }
