@@ -273,6 +273,19 @@ class Repository {
             return;
         }
 
+        $errors = array_merge(
+            Validator::applicationValidate($userAddParams['company'])['errors'],
+            Validator::applicationValidate($userAddParams['model'])['errors']
+        );
+        
+        if (!empty($errors)) {
+            echo json_encode([
+                'success' => false,
+                'message' => $errors[0]
+            ]);
+            return;
+        }
+
         $newApplication = [
             'id' => $userAddParams['id'],
             'type' => $userAddParams['type'],
@@ -293,7 +306,6 @@ class Repository {
                 'message' => 'Ошибка добавления устройства!'
             ]);
         }
-
     }
 
     /**

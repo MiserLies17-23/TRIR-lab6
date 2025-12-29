@@ -2,7 +2,7 @@
     {
         "login": "admin",
         "password": "123456",
-        "visits": 20,
+        "visits": 29,
         "applications": [
             {
                 "id": 0,
@@ -15,6 +15,18 @@
                 "type": "phone",
                 "company": "Samsung",
                 "model": "A52 Galaxy"
+            },
+            {
+                "id": 2,
+                "type": "laptop",
+                "company": "Miracle",
+                "model": "EE2"
+            },
+            {
+                "id": 3,
+                "type": "phone",
+                "company": "Outlock",
+                "model": "leksGR"
             }
         ]
     },
