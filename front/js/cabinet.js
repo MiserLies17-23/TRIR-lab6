@@ -1,7 +1,7 @@
 import {Api} from "./Api.js"
 
 /**
- * 
+ * Функционал кабинета пользователя
  * 
  * @returns {void}
  */
@@ -19,11 +19,23 @@ $(document).ready(function() {
     getTime(); 
     setInterval(getTime, 1000);
 
+    /**
+     * Обработчик событий для кнопки добавления нового устройства
+     * 
+     * @listens click
+     * @returns {void}
+     */
     $('#add-button').click(()=> {
         localStorage.setItem('action', 'add');
         window.location.href = "./application.html";
     })
 
+    /**
+     * Обработчик событий для кнопки выхода
+     * 
+     * @listens click 
+     * @returns {void}
+     */
     $('#exit-button').click(() => {
         localStorage.removeItem('currentUser');
         window.location.href="../../index.html";
@@ -132,12 +144,17 @@ $(document).ready(function() {
                     id : ID,
                 }
                 
-                const API = new Api('../../back/endpoint/deleteApplication.php');
-                const RESULT = await API.post(USER_PARAMS);
-                if (RESULT.success) {
-                    location.reload();
+                const confirmation = confirm("Вы уверены, что хотите удалить устрйоство?");
+                if (confirmation == true) {
+                    const API = new Api('../../back/endpoint/deleteApplication.php');
+                    const RESULT = await API.post(USER_PARAMS);
+                    if (RESULT.success) {
+                        location.reload();
+                    } else {
+                        alert(RESULT.message);
+                    }
                 } else {
-                    alert(RESULT.message);
+                    console.log("Действие отменено")
                 }
             })
         })

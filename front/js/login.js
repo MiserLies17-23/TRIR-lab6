@@ -1,18 +1,24 @@
 import {Api} from "./Api.js";
 
 /**
- * Обработчик событий для кнопки "Регистрация"
+ * Функционал страницы входа
  * 
- * @listens click
  * @returns {void}
  */
 $(document).ready(function() {
+
+    /**
+     * Обработчик событий для кнопки "Регистрация"
+     * 
+     * @listens click
+     * @returns {void}
+     */
     $('#reg-button').on('click', function() {
         window.location.href = "front/html/registration.html";
     });
 
     /**
-     * Обработчик событий для формы
+     * Обработчик событий для формы входа (для кнопки "Войти")
      * 
      * @listens submit
      * @returns {void}
