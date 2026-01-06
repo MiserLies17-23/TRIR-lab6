@@ -8,6 +8,7 @@ import {Api} from './Api.js'
 $(document).ready(function() {
 
     const ERROR_CONTEINER = $('#error-message');
+    const HEADER = $('#header');
 
     const ACTION = localStorage.getItem('action');
     let USER_DATA = JSON.parse(localStorage.getItem('currentUser'));
@@ -34,7 +35,7 @@ $(document).ready(function() {
             }
 
             if (ACTION === 'add') {
-                $('#header').text("Добавьте устройство")
+                HEADER.text("Добавьте устройство")
                 $('#next-button').click(addApplication());
             } else if (ACTION === 'edit') {
                 const PARAMS = localStorage.getItem('currentApplication');
@@ -42,7 +43,7 @@ $(document).ready(function() {
                     alert('Устройство не распознано!');
                     window.location.href = './cabinet.html';
                 } else {
-                    $('#header').text("Редактируйте данные устройства");
+                    HEADER.text("Редактируйте данные устройства");
                     loadCurrentParams();
                     $('#next-button').click(editApplication());
                 }
@@ -55,7 +56,7 @@ $(document).ready(function() {
             window.location.href = "./cabinet.html";
         }
     })
-    
+
     /**
      * Функция добавления нового устройства
      * 
@@ -115,7 +116,6 @@ $(document).ready(function() {
             ERROR_CONTEINER.text("Ошибка загрузки данных");
             console.log(error);
         }
-        
     }
 
     /**
@@ -133,6 +133,8 @@ $(document).ready(function() {
             let currentCompany = application.company;
             let currentModel = application.model;
             
+            console.log(currentCompany); // Для временной отладки
+
             $('#type').val(currentType || '');
             $('#company').val(currentCompany || '');
             $('#model').val(currentModel || '');
@@ -145,7 +147,8 @@ $(document).ready(function() {
     /**
      * Метод обновления пользовательтских данных в localStorage
      * 
-     * @param {array} updatedParams 
+     * @param {array} updatedParams обновлённые данные пользователя
+     * @returns {void}
      */
     function updateLocalStorage(updatedParams) {
         
@@ -178,4 +181,5 @@ $(document).ready(function() {
     $('#back-button').click(function() {
         window.location.href = './cabinet.html';
     })
+    
 })
