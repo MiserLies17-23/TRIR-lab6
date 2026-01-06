@@ -236,6 +236,19 @@ class Repository {
             ]);
             return;
         }
+
+        $errors = array_merge(
+            Validator::applicationValidate($userEditParams['company'])['errors'],
+            Validator::applicationValidate($userEditParams['model'])['errors']
+        );
+        
+        if (!empty($errors)) {
+            echo json_encode([
+                'success' => false,
+                'message' => $errors[0]
+            ]);
+            return;
+        }
         
         $this->data[$currentIndex]['applications'][$applicationIndex] = [
             'id' => $applicationIndex,

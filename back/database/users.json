@@ -2,13 +2,13 @@
     {
         "login": "admin",
         "password": "123456",
-        "visits": 32,
+        "visits": 34,
         "applications": [
             {
                 "id": 0,
                 "type": "phone",
                 "company": "Apple",
-                "model": "Apple iPhone X"
+                "model": "IPhone XR"
             },
             {
                 "id": 1,

@@ -14,9 +14,29 @@ $(document).ready(function() {
     let USER_DATA = JSON.parse(localStorage.getItem('currentUser'));
     const ID = parseInt(localStorage.getItem('currentApplication'));
 
-    console.log(ID); // для временной отладки
-    console.log(ACTION);
-    console.log(USER_DATA);
+    loadFormParams();
+
+    /**
+     * Функция заполнения формы 
+     * 
+     * @returns {void}
+     */
+    function loadFormParams() {
+        if (ACTION === 'add')
+            HEADER.text("Добавьте устройство");
+        else if (ACTION === 'edit') {
+            HEADER.text("Редактируйте данные устройства");
+            const PARAMS = localStorage.getItem('currentApplication');
+            if (!PARAMS) {
+                alert('Устройство не распознано!');
+                window.location.href = './cabinet.html';
+            }
+            loadCurrentParams();
+        } else {
+            alert('Действие не распознано!');
+            window.location.href = '../../index.html';
+        }
+    }
 
     /**
      * Обработчик событий для кнопки "Сохранить"
@@ -35,18 +55,9 @@ $(document).ready(function() {
             }
 
             if (ACTION === 'add') {
-                HEADER.text("Добавьте устройство")
                 $('#next-button').click(addApplication());
             } else if (ACTION === 'edit') {
-                const PARAMS = localStorage.getItem('currentApplication');
-                if (!PARAMS) {
-                    alert('Устройство не распознано!');
-                    window.location.href = './cabinet.html';
-                } else {
-                    HEADER.text("Редактируйте данные устройства");
-                    loadCurrentParams();
-                    $('#next-button').click(editApplication());
-                }
+                $('#next-button').click(editApplication());
             } else {
                 alert('Действие не распознано!');
                 window.location.href = '../../index.html';
@@ -132,8 +143,6 @@ $(document).ready(function() {
             let currentType = application.type;
             let currentCompany = application.company;
             let currentModel = application.model;
-            
-            console.log(currentCompany); // Для временной отладки
 
             $('#type').val(currentType || '');
             $('#company').val(currentCompany || '');
